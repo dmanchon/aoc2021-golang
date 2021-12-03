@@ -1,4 +1,4 @@
-.PHONY: day1-1 day1-2 day2-1 day2-2
+.PHONY: day1-1 day1-2 day2-1 day2-2 day3-1 day3-2
 
 day1-1:
 	cat ./day1-1/input.txt | go run ./day1-1/main.go
@@ -11,3 +11,9 @@ day2-1:
 
 day2-2:
 	cat ./day2-2/input.txt | go run ./day2-2/main.go
+
+day3-1:
+	cat ./day3-1/input.txt | go run ./day3-1/main.go
+
+day3-2:
+	cat ./day3-2/input.txt | go run ./day3-2/main.go
