@@ -7,16 +7,50 @@ import (
 	"strconv"
 )
 
-var mapping = map[rune]float64{
-	'0': 0.0,
-	'1': 1.0,
+func calculation(matrix [][]rune, inverse bool) int {
+	i := 0
+	for len(matrix) > 1 {
+		tmp := make([][]rune, 0)
+
+		ones := make([]int, 0)
+		zeroes := make([]int, 0)
+
+		for j, row := range matrix {
+			switch row[i] {
+			case '0':
+				zeroes = append(zeroes, j)
+
+			case '1':
+				ones = append(ones, j)
+			}
+		}
+
+		cond := len(ones) >= len(zeroes)
+		if inverse {
+			// only different between the two cases
+			cond = !cond
+		}
+
+		if cond {
+			for _, idx := range ones {
+				tmp = append(tmp, matrix[idx])
+			}
+		} else {
+			for _, idx := range zeroes {
+				tmp = append(tmp, matrix[idx])
+			}
+		}
+		matrix = tmp
+		i = i + 1
+	}
+	result, _ := strconv.ParseInt(string(matrix[0]), 2, 64)
+	return int(result)
 }
 
 func solve(lines []string) int {
 	size := len(lines)
 	width := len(lines[0])
 	matrix := make([][]rune, size)
-	var tmp [][]rune
 
 	for i, line := range lines {
 		matrix[i] = make([]rune, width)
@@ -25,71 +59,8 @@ func solve(lines []string) int {
 		}
 	}
 
-	store := matrix
-
-	for i := 0; i < width; i++ {
-		if len(matrix) == 1 {
-			break
-		}
-
-		ones := make([]int, 0)
-		zeroes := make([]int, 0)
-
-		for j, row := range matrix {
-			switch row[i] {
-			case '0':
-				zeroes = append(zeroes, j)
-
-			case '1':
-				ones = append(ones, j)
-			}
-		}
-
-		tmp = make([][]rune, 0)
-		if len(ones) >= len(zeroes) {
-			for _, idx := range ones {
-				tmp = append(tmp, matrix[idx])
-			}
-		} else {
-			for _, idx := range zeroes {
-				tmp = append(tmp, matrix[idx])
-			}
-		}
-		matrix = tmp
-	}
-	o2, _ := strconv.ParseInt(string(matrix[0]), 2, 64)
-
-	matrix = store
-	for i := 0; i < width; i++ {
-		if len(matrix) == 1 {
-			break
-		}
-		ones := make([]int, 0)
-		zeroes := make([]int, 0)
-
-		for j, row := range matrix {
-			switch row[i] {
-			case '0':
-				zeroes = append(zeroes, j)
-
-			case '1':
-				ones = append(ones, j)
-			}
-		}
-
-		tmp = make([][]rune, 0)
-		if len(zeroes) <= len(ones) {
-			for _, idx := range zeroes {
-				tmp = append(tmp, matrix[idx])
-			}
-		} else {
-			for _, idx := range ones {
-				tmp = append(tmp, matrix[idx])
-			}
-		}
-		matrix = tmp
-	}
-	co2, _ := strconv.ParseInt(string(matrix[0]), 2, 64)
+	o2 := calculation(matrix, false)
+	co2 := calculation(matrix, true)
 
 	return int(co2) * int(o2)
 }
