@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func calculation(matrix [][]rune, inverse bool) int64 {
+func calculation(done chan int64, matrix [][]rune, inverse bool) {
 	i := 0
 	for len(matrix) > 1 {
 		tmp := make([][]rune, 0)
@@ -43,8 +43,9 @@ func calculation(matrix [][]rune, inverse bool) int64 {
 		matrix = tmp
 		i = i + 1
 	}
+
 	result, _ := strconv.ParseInt(string(matrix[0]), 2, 64)
-	return result
+	done <- result
 }
 
 func solve(lines []string) int64 {
@@ -59,10 +60,13 @@ func solve(lines []string) int64 {
 		}
 	}
 
-	o2 := calculation(matrix, false)
-	co2 := calculation(matrix, true)
+	co2 := make(chan int64, 1)
+	o2 := make(chan int64, 1)
 
-	return co2 * o2
+	go calculation(o2, matrix, false)
+	go calculation(co2, matrix, true)
+
+	return <-o2 * <-co2
 }
 
 func main() {
