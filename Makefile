@@ -23,3 +23,9 @@ day4-1:
 
 day4-2:
 	cat ./day4-2/input.txt | go run ./day4-2/main.go
+
+day5-1:
+	cat ./day5-1/input.txt | go run ./day5-1/main.go
+
+day5-2:
+	cat ./day5-2/input.txt | go run ./day5-2/main.go
