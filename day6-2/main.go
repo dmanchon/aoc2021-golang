@@ -8,9 +8,8 @@ import (
 	"strings"
 )
 
-func solve(lines []string) int {
-
-	population := map[int]int{
+func empty() map[int]int {
+	return map[int]int{
 		0: 0,
 		1: 0,
 		2: 0,
@@ -20,6 +19,10 @@ func solve(lines []string) int {
 		7: 0,
 		8: 0,
 	}
+}
+func solve(lines []string) int {
+
+	population := empty()
 
 	for _, s := range strings.Split(lines[0], ",") {
 		n, _ := strconv.Atoi(s)
@@ -27,17 +30,7 @@ func solve(lines []string) int {
 	}
 
 	for day := 0; day < 256; day++ {
-		Δ := map[int]int{
-			0: 0,
-			1: 0,
-			2: 0,
-			3: 0,
-			4: 0,
-			5: 0,
-			7: 0,
-			8: 0,
-		}
-
+		Δ := empty()
 		for age, number := range population {
 			if age == 0 {
 				Δ[6] += number
