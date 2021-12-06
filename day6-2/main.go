@@ -20,7 +20,7 @@ func empty() map[int]int {
 		8: 0,
 	}
 }
-func solve(lines []string) int {
+func Solve(lines []string) int {
 
 	population := empty()
 
@@ -55,13 +55,16 @@ func solve(lines []string) int {
 	return sum
 }
 
-func main() {
-	scanner := bufio.NewScanner(os.Stdin)
+func ReadInput(file *os.File) []string {
+	scanner := bufio.NewScanner(file)
 
 	var lines []string
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
-	solution := solve(lines)
-	fmt.Println(solution)
+	return lines
+}
+
+func main() {
+	fmt.Println(Solve(ReadInput(os.Stdin)))
 }
