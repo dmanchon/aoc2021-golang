@@ -11,12 +11,8 @@ import (
 )
 
 func Fuel(n int) int {
-	n = int(math.Abs(float64(n))) + 1
-	sum := 0
-	for i := 0; i < n; i++ {
-		sum += i
-	}
-	return sum
+	n = int(math.Abs(float64(n)))
+	return (n * (n + 1)) / 2
 }
 
 type Crab struct {
