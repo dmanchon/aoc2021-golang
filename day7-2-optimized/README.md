@@ -5,9 +5,9 @@ Optimized
 goos: linux
 goarch: amd64
 cpu: AMD Ryzen 7 PRO 4750U with Radeon Graphics
-BenchmarkExercise-16               6	 191818448 ns/op
+BenchmarkExercise-16             416	   2681890 ns/op
 PASS
-ok      command-line-arguments	1.547s
+ok      command-line-arguments	1.425s
 ```
 
 
