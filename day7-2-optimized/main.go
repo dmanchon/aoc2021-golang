@@ -11,10 +11,6 @@ import (
 )
 
 func Fuel(n int) int {
-	return int(math.Abs(float64(n)))
-}
-
-func Fuel2(n int) int {
 	n = int(math.Abs(float64(n))) + 1
 	sum := 0
 	for i := 0; i < n; i++ {
@@ -39,7 +35,7 @@ func Solve(lines []string) int {
 	for i, n := range pos {
 		distances[i].Pos = i
 		for _, m := range pos {
-			distances[i].SumDist = distances[i].SumDist + Fuel2(m-n)
+			distances[i].SumDist = distances[i].SumDist + Fuel(m-n)
 		}
 	}
 
@@ -56,7 +52,7 @@ func Solve(lines []string) int {
 	for i := a; i < b; i++ {
 		sum := 0
 		for _, m := range pos {
-			sum += Fuel2(i - m)
+			sum += Fuel(i - m)
 		}
 		if sum < min {
 			min = sum
