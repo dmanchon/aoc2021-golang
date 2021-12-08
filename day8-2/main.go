@@ -73,7 +73,6 @@ func Solve(lines []string) int {
 
 	wg.Add(len(lines))
 	for _, line := range lines {
-		sums += SolveLine(line)
 		go func(line string) {
 			results <- SolveLine(line)
 			wg.Done()
