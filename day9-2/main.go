@@ -12,6 +12,12 @@ type Point struct {
 	x, y int
 }
 
+type NoMerges struct{}
+
+func (m *NoMerges) Error() string {
+	return "no more merges"
+}
+
 func Adjacent(x1, y1, x2, y2 int) bool {
 	if (math.Abs(float64(x1-x2)) + math.Abs(float64(y1-y2))) == 1 {
 		return true
@@ -19,7 +25,9 @@ func Adjacent(x1, y1, x2, y2 int) bool {
 	return false
 }
 
-func Merge(basins map[Point][]Point) (*Point, *Point) {
+func Merge(basins map[Point][]Point) (Point, Point, error) {
+	NoPoint := Point{}
+
 	for k1, basin1 := range basins {
 		for k2, basin2 := range basins {
 			if k1 == k2 {
@@ -28,14 +36,14 @@ func Merge(basins map[Point][]Point) (*Point, *Point) {
 			for _, p1 := range basin1 {
 				for _, p2 := range basin2 {
 					if Adjacent(p1.x, p1.y, p2.x, p2.y) {
-						return &k1, &k2
+						return k1, k2, nil
 					}
 				}
 			}
 
 		}
 	}
-	return nil, nil
+	return NoPoint, NoPoint, &NoMerges{}
 }
 
 func Solve(lines []string) int {
@@ -60,12 +68,13 @@ func Solve(lines []string) int {
 
 	// merge basins
 	for {
-		p1, p2 := Merge(basins)
-		if p1 == nil || p2 == nil {
+		p1, p2, err := Merge(basins)
+		if err != nil {
 			break
 		}
-		basins[*p1] = append(basins[*p1], basins[*p2]...)
-		delete(basins, *p2)
+
+		basins[p1] = append(basins[p1], basins[p2]...)
+		delete(basins, p2)
 	}
 
 	// sort desc.
