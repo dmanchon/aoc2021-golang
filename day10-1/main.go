@@ -8,13 +8,11 @@ import (
 
 func Solve(lines []string) int {
 	num := 0
+	points := map[rune]int{')': 3, ']': 57, '}': 1197, '>': 25137}
 
 outer:
 	for _, line := range lines {
-
 		open := make([]rune, 0)
-		points := map[rune]int{')': 3, ']': 57, '}': 1197, '>': 25137}
-
 		for _, r := range line {
 
 			switch r {

@@ -9,11 +9,12 @@ import (
 
 func Solve(lines []string) int {
 	nums := make([]int, 0)
+	points := map[rune]int{'(': 1, '[': 2, '{': 3, '<': 4}
+
 outer:
 	for _, line := range lines {
 
 		open := make([]rune, 0)
-		points := map[rune]int{'(': 1, '[': 2, '{': 3, '<': 4}
 
 		for _, r := range line {
 
