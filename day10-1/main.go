@@ -9,7 +9,7 @@ import (
 func Solve(lines []string) int {
 	num := 0
 	points := map[rune]int{')': 3, ']': 57, '}': 1197, '>': 25137}
-
+	pairs := map[rune]rune{')': '(', ']': '[', '}': '{', '>': '<'}
 outer:
 	for _, line := range lines {
 		open := make([]rune, 0)
@@ -18,28 +18,8 @@ outer:
 			switch r {
 			case '(', '[', '{', '<':
 				open = append(open, r)
-			case ')':
-				if open[len(open)-1] != '(' {
-					num += points[r]
-					continue outer
-				}
-				open = open[:len(open)-1]
-			case ']':
-				if open[len(open)-1] != '[' {
-					num += points[r]
-					continue outer
-				}
-				open = open[:len(open)-1]
-
-			case '}':
-				if open[len(open)-1] != '{' {
-					num += points[r]
-					continue outer
-				}
-				open = open[:len(open)-1]
-
-			case '>':
-				if open[len(open)-1] != '<' {
+			default:
+				if open[len(open)-1] != pairs[r] {
 					num += points[r]
 					continue outer
 				}

@@ -10,50 +10,25 @@ import (
 func Solve(lines []string) int {
 	nums := make([]int, 0)
 	points := map[rune]int{'(': 1, '[': 2, '{': 3, '<': 4}
+	pairs := map[rune]rune{')': '(', ']': '[', '}': '{', '>': '<'}
 
 outer:
 	for _, line := range lines {
-
 		open := make([]rune, 0)
-
 		for _, r := range line {
-
 			switch r {
 			case '(', '[', '{', '<':
-				open = append(open, r)
-			case ')':
-				if open[len(open)-1] != '(' {
+				open = append([]rune{r}, open...)
+			default:
+				if open[0] != pairs[r] {
 					continue outer
 				}
-				open = open[:len(open)-1]
-			case ']':
-				if open[len(open)-1] != '[' {
-					continue outer
-				}
-				open = open[:len(open)-1]
-
-			case '}':
-				if open[len(open)-1] != '{' {
-					continue outer
-				}
-				open = open[:len(open)-1]
-
-			case '>':
-				if open[len(open)-1] != '<' {
-					continue outer
-				}
-				open = open[:len(open)-1]
-
+				open = open[1:]
 			}
 		}
 
 		n := 0
-		reverse := make([]rune, len(open))
-		for i, r := range open {
-			reverse[len(open)-i-1] = r
-		}
-
-		for _, r := range reverse {
+		for _, r := range open {
 			n = n*5 + points[r]
 		}
 		nums = append(nums, n)
