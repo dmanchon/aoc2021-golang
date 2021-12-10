@@ -12,16 +12,16 @@ func Solve(lines []string) int {
 	points := map[rune]int{'(': 1, '[': 2, '{': 3, '<': 4}
 	pairs := map[rune]rune{')': '(', ']': '[', '}': '{', '>': '<'}
 
-outer:
 	for _, line := range lines {
 		open := make([]rune, 0)
+	outer:
 		for _, r := range line {
 			switch r {
 			case '(', '[', '{', '<':
 				open = append([]rune{r}, open...)
 			default:
 				if open[0] != pairs[r] {
-					continue outer
+					break outer
 				}
 				open = open[1:]
 			}
