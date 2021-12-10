@@ -53,3 +53,11 @@ day9-1:
 
 day9-2:
 	cat ./day9-2/input.txt | go run ./day9-2/main.go
+
+day10-1:
+	cat ./day10-1/input.txt | go run ./day10-1/main.go
+
+day10-2:
+	cat ./day10-2/input.txt | go run ./day10-2/main.go
+
+all: *
