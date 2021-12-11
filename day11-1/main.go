@@ -7,11 +7,6 @@ import (
 	"strconv"
 )
 
-// 0 1 2 3
-// a b c
-// x y z
-// s r t
-
 func Step(x, y int, state [][]int, flashed map[int]bool) {
 	if y < 0 || x < 0 || y > len(state[0])-1 || x > len(state)-1 {
 		return
