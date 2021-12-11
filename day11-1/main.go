@@ -53,13 +53,7 @@ func Solve(lines []string) int {
 				Step(x, y, state, empty)
 			}
 		}
-		for x := 0; x < len(state); x++ {
-			for y := 0; y < len(state[0]); y++ {
-				if state[x][y] == 0 {
-					num++
-				}
-			}
-		}
+		num += len(empty)
 	}
 
 	return num
