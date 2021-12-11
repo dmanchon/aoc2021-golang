@@ -21,14 +21,11 @@ func Step(x, y int, state [][]int, flashed map[int]bool) {
 		state[x][y] = 0
 		flashed[x+y*len(state)] = true
 
-		Step(x+1, y, state, flashed)
-		Step(x+1, y+1, state, flashed)
-		Step(x, y+1, state, flashed)
-		Step(x-1, y, state, flashed)
-		Step(x-1, y-1, state, flashed)
-		Step(x, y-1, state, flashed)
-		Step(x+1, y-1, state, flashed)
-		Step(x-1, y+1, state, flashed)
+		for _, i := range []int{-1, 0, 1} {
+			for _, j := range []int{-1, 0, 1} {
+				Step(x+i, y+j, state, flashed)
+			}
+		}
 	}
 
 }
