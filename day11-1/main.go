@@ -43,14 +43,14 @@ func Solve(lines []string) int {
 	}
 
 	for i := 0; i < 100; i++ {
-		empty := make(map[int]bool)
+		flashed := make(map[int]bool)
 
 		for x := 0; x < len(state); x++ {
 			for y := 0; y < len(state[0]); y++ {
-				Step(x, y, state, empty)
+				Step(x, y, state, flashed)
 			}
 		}
-		num += len(empty)
+		num += len(flashed)
 	}
 
 	return num

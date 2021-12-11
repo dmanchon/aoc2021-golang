@@ -43,16 +43,16 @@ func Solve(lines []string) int {
 	i := 0
 	for {
 		i++
-		empty := make(map[int]bool)
+		flashed := make(map[int]bool)
 
 		for x := 0; x < len(state); x++ {
 			for y := 0; y < len(state[0]); y++ {
-				Step(x, y, state, empty)
+				Step(x, y, state, flashed)
 			}
 		}
 
 		// everything's illuminated?
-		if len(state)*len(state[0])-len(empty) == 0 {
+		if len(state)*len(state[0])-len(flashed) == 0 {
 			return i
 		}
 	}
