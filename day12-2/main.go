@@ -9,9 +9,9 @@ import (
 
 func FindPaths(graph map[string][]string, start, end string) [][]string {
 	res := make([][]string, 0)
-	var recur func(start, end string, traversed []string)
+	var recur func(start string, traversed []string)
 
-	recur = func(start, end string, traversed []string) {
+	recur = func(start string, traversed []string) {
 		traversed = append(traversed, start)
 		if start == end {
 			res = append(res, traversed)
@@ -20,16 +20,15 @@ func FindPaths(graph map[string][]string, start, end string) [][]string {
 			return
 		}
 		for _, node := range graph[start] {
-			recur(node, end, traversed)
+			recur(node, traversed)
 		}
-
 	}
-	recur(start, end, []string{})
+	recur(start, []string{})
 	return res
 }
 
 func ShouldStopTraversing(node string, traversed []string) bool {
-	freqs := make(map[string]int, len(traversed))
+	freqs := make(map[string]int)
 
 	freqs[node] = 1
 	repeated := 0
@@ -43,13 +42,10 @@ func ShouldStopTraversing(node string, traversed []string) bool {
 			continue
 		}
 
-		if v == "start" || v == "end" {
-			if v == node {
-				return true
-			}
-			continue
-
+		if v == "start" && v == node {
+			return true
 		}
+
 		freqs[v]++
 		if freqs[v] > 1 {
 			repeated++
@@ -58,7 +54,6 @@ func ShouldStopTraversing(node string, traversed []string) bool {
 			return true
 		}
 	}
-
 	return false
 }
 
