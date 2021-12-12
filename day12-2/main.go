@@ -9,55 +9,53 @@ import (
 
 func FindPaths(graph map[string][]string, start, end string) [][]string {
 	res := make([][]string, 0)
-	FindPathsRecur(graph, start, end, []string{}, &res)
+	var recur func(start, end string, traversed []string)
+
+	recur = func(start, end string, traversed []string) {
+		traversed = append(traversed, start)
+		if start == end {
+			res = append(res, traversed)
+			return
+		} else if ShouldStopTraversing(start, traversed[:len(traversed)-1]) {
+			return
+		}
+		for _, node := range graph[start] {
+			recur(node, end, traversed)
+		}
+
+	}
+	recur(start, end, []string{})
 	return res
 }
 
-func ShouldStopTraversing(node string, visited []string) bool {
+func ShouldStopTraversing(node string, traversed []string) bool {
 	freqs := make(map[string]int)
-	permited := 0
-	for _, node := range visited {
+	allowed := 0
+
+	for _, node := range traversed {
 		if _, ok := freqs[node]; !ok {
-			freqs[node] = 1
-		} else {
-			freqs[node]++
+			freqs[node] = 0
 		}
+		freqs[node]++
 	}
+
 	for k, v := range freqs {
 		if v > 1 && strings.ToLower(k) == k {
-			permited++
+			allowed++
 		}
 	}
 
 	if strings.ToLower(node) == node {
-		for _, v := range visited {
-			if v == node && (v == "start" || v == "end") {
-				return true
+		for _, v := range traversed {
+			if v != node {
+				continue
 			}
-			if v == node && permited > 0 {
+			if allowed > 0 || v == "start" || v == "end" {
 				return true
 			}
 		}
 	}
 	return false
-}
-
-func FindPathsRecur(graph map[string][]string, start, end string, traversed []string, result *[][]string) {
-	// Finished?
-	if start == end {
-		traversed = append(traversed, start)
-		*result = append(*result, traversed)
-		return
-	} else if ShouldStopTraversing(start, traversed) {
-		return
-	}
-
-	// Add current node to traversed list
-	traversed = append(traversed, start)
-
-	for _, node := range graph[start] {
-		FindPathsRecur(graph, node, end, traversed, result)
-	}
 }
 
 func Solve(lines []string) int {
