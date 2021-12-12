@@ -29,32 +29,36 @@ func FindPaths(graph map[string][]string, start, end string) [][]string {
 }
 
 func ShouldStopTraversing(node string, traversed []string) bool {
-	freqs := make(map[string]int)
-	allowed := 0
+	freqs := make(map[string]int, len(traversed))
 
-	for _, node := range traversed {
-		if _, ok := freqs[node]; !ok {
-			freqs[node] = 0
-		}
-		freqs[node]++
+	freqs[node] = 1
+	repeated := 0
+
+	if strings.ToLower(node) != node {
+		return false
 	}
 
-	for k, v := range freqs {
-		if v > 1 && strings.ToLower(k) == k {
-			allowed++
+	for _, v := range traversed {
+		if strings.ToLower(v) != v {
+			continue
 		}
-	}
 
-	if strings.ToLower(node) == node {
-		for _, v := range traversed {
-			if v != node {
-				continue
-			}
-			if allowed > 0 || v == "start" || v == "end" {
+		if v == "start" || v == "end" {
+			if v == node {
 				return true
 			}
+			continue
+
+		}
+		freqs[v]++
+		if freqs[v] > 1 {
+			repeated++
+		}
+		if repeated > 1 {
+			return true
 		}
 	}
+
 	return false
 }
 
