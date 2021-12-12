@@ -39,20 +39,6 @@ func ShouldStopTraversing(node string, traversed []string) bool {
 	return false
 }
 
-func FindPathsRecur(graph map[string][]string, start, end string, traversed []string, callback func([]string)) {
-	traversed = append(traversed, start)
-	if start == end {
-		callback(traversed)
-		return
-	} else if ShouldStopTraversing(start, traversed) {
-		return
-	}
-
-	for _, node := range graph[start] {
-		FindPathsRecur(graph, node, end, traversed, callback)
-	}
-}
-
 func Solve(lines []string) int {
 	graph := make(map[string][]string)
 	for _, line := range lines {
