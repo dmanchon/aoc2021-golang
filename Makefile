@@ -75,4 +75,11 @@ day12-2:
 day13:
 	cat ./day13/input.txt | go run ./day13/main.go
 
+day14-1:
+	cat ./day14-1/input.txt | go run ./day14-1/main.go
+
+day14-2:
+	cat ./day14-2/input.txt | go run ./day14-2/main.go
+
+
 all: *
