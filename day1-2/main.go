@@ -42,13 +42,8 @@ func solve(lines []int) int {
 	var previous *int
 	for _, x := range lines {
 		x := x
-		if previous == nil {
-			fmt.Printf("%d (N/A - no previous measurement)\n", x)
-		} else if (x - *previous) > 0 {
-			fmt.Printf("%d (increased)\n", x)
+		if previous != nil && (x-*previous) > 0 {
 			increments += 1
-		} else {
-			fmt.Printf("%d (decreased)\n", x)
 		}
 		previous = &x
 	}

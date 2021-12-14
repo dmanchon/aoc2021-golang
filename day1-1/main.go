@@ -15,13 +15,8 @@ func solve(lines []string) int {
 		if err != nil {
 			panic(err)
 		}
-		if previous == nil {
-			fmt.Printf("%d (N/A - no previous measurement)\n", x)
-		} else if (x - *previous) > 0 {
-			fmt.Printf("%d (increased)\n", x)
+		if previous != nil && (x-*previous) > 0 {
 			increments += 1
-		} else {
-			fmt.Printf("%d (decreased)\n", x)
 		}
 		previous = &x
 	}

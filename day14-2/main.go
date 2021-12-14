@@ -8,27 +8,27 @@ import (
 	"strings"
 )
 
+type Pair struct {
+	Left, Right byte
+}
+
 type Rule struct {
 	Left, Right byte
 	Insert      byte
 }
 
-type Pair struct {
-	Left, Right byte
-}
-
-func Step(pairs map[string]int, rules []Rule) map[string]int {
-	update := make(map[string]int)
+func Step(pairs map[Pair]int, rules []Rule) map[Pair]int {
+	update := make(map[Pair]int)
 	for k, v := range pairs {
 		update[k] = v
 	}
 
 	for p, count := range pairs {
 		for _, rule := range rules {
-			if rule.Left == p[0] && p[1] == rule.Right {
+			if rule.Left == p.Left && rule.Right == p.Right {
 				//match!!
-				update[string([]byte{p[0], rule.Insert})] += count
-				update[string([]byte{rule.Insert, p[1]})] += count
+				update[Pair{p.Left, rule.Insert}] += count
+				update[Pair{rule.Insert, p.Right}] += count
 				update[p] -= count
 				break
 			}
@@ -39,16 +39,16 @@ func Step(pairs map[string]int, rules []Rule) map[string]int {
 
 func Solve(lines []string) int {
 
-	pairs := make(map[string]int)
+	pairs := make(map[Pair]int)
 	var delim byte = 0x00
 	// head
-	pairs[string([]byte{delim, lines[0][0]})] = 1
+	pairs[Pair{delim, lines[0][0]}] = 1
 	// tail
-	pairs[string([]byte{lines[0][len(lines[0])-1], byte(delim)})] = 1
+	pairs[Pair{lines[0][len(lines[0])-1], delim}] = 1
 
 	for i, b := range lines[0][:len(lines[0])-1] {
-		s := []byte{byte(b), lines[0][i+1]}
-		pairs[string(s)]++
+		p := Pair{byte(b), lines[0][i+1]}
+		pairs[p]++
 	}
 
 	rules := make([]Rule, 0)
@@ -59,14 +59,12 @@ func Solve(lines []string) int {
 
 	for i := 0; i < 40; i++ {
 		pairs = Step(pairs, rules)
-
 	}
 
 	freqs := make(map[byte]int)
 	for p, count := range pairs {
-		// 'freqs[p[1]] += count' workds too
-		freqs[p[0]] += count
-
+		// 'freqs[p.Right] += count' workds too
+		freqs[p.Left] += count
 	}
 
 	// we dont care about delimiters
