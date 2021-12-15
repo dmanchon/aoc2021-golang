@@ -6,6 +6,7 @@ import (
 	"math"
 	"os"
 	"strings"
+	"time"
 )
 
 type Rule struct {
@@ -80,5 +81,9 @@ func ReadInput(file *os.File) []string {
 }
 
 func main() {
+	start := time.Now()
+	defer func() {
+		fmt.Println("Elapsed Time: ", time.Now().Sub(start))
+	}()
 	fmt.Println(Solve(ReadInput(os.Stdin)))
 }
