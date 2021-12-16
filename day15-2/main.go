@@ -76,7 +76,7 @@ func FindPaths(coords [][]int, start, goal Point, points map[Point][]Point, d fu
 			}
 
 		}
-		// Animation.
+		// Uncomment for Live Animation.
 		//Print(coords, len(coords), len(coords[0]), ReconstructPath(cameFrom, current), openSet)
 	}
 
@@ -101,7 +101,7 @@ func Print(arr [][]int, x, y int, path []Point, openSet map[Point]struct{}) {
 		}
 		fmt.Printf("\n")
 	}
-	time.Sleep(time.Millisecond * 20)
+	time.Sleep(time.Second / 24)
 }
 
 func Expand(arr [][]int) [][]int {
