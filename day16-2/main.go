@@ -63,8 +63,6 @@ func Execute(packet Packet) int64 {
 		v2 := Execute(packet.Packets[1])
 		if v1 > v2 {
 			return 1
-		} else {
-			return 0
 		}
 	case 6:
 		// lt
@@ -72,8 +70,6 @@ func Execute(packet Packet) int64 {
 		v2 := Execute(packet.Packets[1])
 		if v1 < v2 {
 			return 1
-		} else {
-			return 0
 		}
 	case 7:
 		// eq
@@ -81,8 +77,6 @@ func Execute(packet Packet) int64 {
 		v2 := Execute(packet.Packets[1])
 		if v1 == v2 {
 			return 1
-		} else {
-			return 0
 		}
 	}
 	return result
