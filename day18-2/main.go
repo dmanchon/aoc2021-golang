@@ -44,10 +44,7 @@ func AllZeroDepth(number []Element) bool {
 	return true
 }
 
-func Magnitude(num []Element) int {
-
-	number := make([]Element, len(num))
-	copy(number, num)
+func Magnitude(number []Element) int {
 	i := 0
 outer:
 	for {
@@ -108,8 +105,15 @@ func NewNumber(num_str string) *Number {
 
 func Sum(f1, f2 []Element) []Element {
 	// each flatten list gets one level deeper
-	flatten := make([]Element, 0)
-	flatten = append(f1, f2...)
+	flatten := make([]Element, len(f1)+len(f2))
+	for i := range f1 {
+		flatten[i] = f1[i]
+	}
+	for i := range f2 {
+		flatten[len(f1)+i] = f2[i]
+	}
+
+	//flatten = append(f1, f2...)
 	for i := range flatten {
 		flatten[i].Depth++
 	}
@@ -166,13 +170,7 @@ func Solve(lines []string) int {
 	for i := range numbers {
 		for j := range numbers {
 			if i != j {
-				// i dont understand yet why i need to do this copy!!! :(
-				n1 := make([]Element, len(numbers[i]))
-				n2 := make([]Element, len(numbers[j]))
-				copy(n1, numbers[i])
-				copy(n2, numbers[j])
-
-				magnitude := Magnitude(Sum(n1, n2))
+				magnitude := Magnitude(Sum(numbers[i], numbers[j]))
 				if magnitude > max {
 					max = magnitude
 				}
