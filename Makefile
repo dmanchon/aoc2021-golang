@@ -111,5 +111,11 @@ day20-1:
 day20-2:
 	cat ./day20-2/input.txt | go run ./day20-2/main.go
 
+day21-1:
+	cat ./day21-1/input.txt | go run ./day21-1/main.go
+
+day21-2:
+	cat ./day21-2/input.txt | go run ./day21-2/main.go
+
 
 all: *
